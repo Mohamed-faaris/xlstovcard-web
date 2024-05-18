@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<form action="/number" method="post">
+    <label for="no_of_number" class="no_of_labels">number of number</label>
+    <input type="number" name = "no_of_number" min="0" id="no_of_number" value="{{no_of_number}}" >
+    <input type="submit">
+</form>
+
+{% for i in range(1,no_of_number+1) %}
+<form action="/number" method="post">
+    <input type="text" name ="{{i}}" placeholder="{{i}}-label">  
+
+    <select prefix="columns" id="prefix" class="select_columns">
+        <option disabled selected>{{i}}-column</option>
+        {% for column in columns %}
+            <option value="{{column}}">{{column}}</option>
+        {% endfor %}
+    </select>  
+        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" placeholder="custom text">
+    <br>
+{% endfor %}
+
+{% endblock %}
