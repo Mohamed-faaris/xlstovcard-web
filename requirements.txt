@@ -1,2 +1,4 @@
 flask
-python-doten
+pandas
+openpyxl
+python-dotenv

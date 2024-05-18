@@ -3,9 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>xls to vcard</title>
+    <style>
+        .custom_text{
+            visibility: hidden;
+        }
+    </style>
+    <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+            // Select all dropdown elements with the class 'myDropdown'
+            const dropdowns = document.querySelectorAll('.select_columns');
+
+            // Add an event listener to each dropdown menu
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('change', function() {
+         
+                // Get the ID of the current dropdown
+                const dropdownId = this.id;
+
+                var customInput = document.getElementById(dropdownId + '_text');
+                if (this.value == 'custom') {
+                    customInput.style.visibility = 'visible';
+                } else {
+                    customInput.style.visibility  = 'hidden';
+                }
+                });
+            });
+            });
+
+    </script>
 </head>
 <body>
-    hello world
+<form action="/">
+    <label for="name">name</label>
+    <select name="columns" id="name" class="select_columns">
+        <option disabled selected>name</option>
+        {% for column in columns %}
+        <option value="{{column}}">{{column}}</option>
+        {% endfor %}
+        <option value="custom" >custom</option>
+        <option value="none">none</option>
+    </select>
+        <input type="text" id="name_text" class="custom_text" name="name_text" placeholder="custom text">
+        <!--<script>
+            document.getElementsByClassName('select_columns').addEventListener('change', function () {
+                console.log(this)
+                var customInput = document.getElementById('name_text');
+                if (this.value == 'custom') {
+                    customInput.style.visibility = 'visible';
+                } else {
+                    customInput.style.visibility  = 'hidden';
+                }
+            });
+        </script>-->
+
+        
+    
+</form>
 </body>
 </html>
