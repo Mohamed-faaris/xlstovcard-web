@@ -1,70 +1,25 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<form action="/">
-    
-    <label for="prefix" class="select_column_labels">prefix</label>
-    <select prefix="columns" id="prefix" class="select_columns">
-        <option disabled selected>prefix</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="none">none</option>
-    </select>
-        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" placeholder="custom text">
-    <br>
-
-    <label for="first_name" class="select_column_labels">first_name</label>
-    <select first_name="columns" id="first_name" class="select_columns">
-        <option disabled selected>first_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="none">none</option>
-    </select>
-        <input type="text" id="first_name_text" class="custom_text" first_name="first_name_text" placeholder="custom text">
-    <br>
-
-    <label for="middle_name" class="select_column_labels">middle_name</label>
-    <select middle_name="columns" id="middle_name" class="select_columns">
-        <option disabled selected>middle_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="none">none</option>
-    </select>
-        <input type="text" id="middle_name_text" class="custom_text" middle_name="middle_name_text" placeholder="custom text">
-    <br>
-
-    <label for="last_name" class="select_column_labels">last_name</label>
-    <select last_name="columns" id="last_name" class="select_columns">
-        <option disabled selected>last_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="none">none</option>
-    </select>
-        <input type="text" id="last_name_text" class="custom_text" last_name="last_name_text" placeholder="custom text">
-    <br>
-
-    
-
-    <label for="suffix" class="select_column_labels">suffix</label>
-    <select suffix="columns" id="suffix" class="select_columns">
-        <option disabled selected>suffix</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="none">none</option>
-    </select>
-        <input type="text" id="suffix_text" class="custom_text" suffix="suffix_text" placeholder="custom text">
-    <br>
-
+<form action="/no_of_email" method="post">
+    <label for="no_of_email" class="no_of_labels">email of email</label>
+    <input type="number" name = "no_of_email" min="0" id="no_of_email" value="{{no_of_email}}" >
+    <input type="submit">
 </form>
 
+{% for i in range(1,no_of_email+1) %}
+<form action="/email" method="post">
+    <input type="text" name ="{{i}}" placeholder="{{i}}-label">  
+
+    <select prefix="columns" id="prefix" class="select_columns">
+        <option disabled selected>{{i}}-column</option>
+        {% for column in columns %}
+            <option value="{{column}}">{{column}}</option>
+        {% endfor %}
+    </select>  
+        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" placeholder="custom text">
+    <br>
+    
+{% endfor %}
+<input type="submit">
 {% endblock %}

@@ -2,3 +2,4 @@ flask
 pandas
 openpyxl
 python-dotenv
+flask_session
