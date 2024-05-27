@@ -14,7 +14,9 @@ def index():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
-    session["contact"].num_index_label =[ [request.form.get(f'num_label-{i}',""),int(request.form.get(f'num_index-{i}',-1))] for i in range(session.get("no_of_number",2))]  
+    session["contact"].num_index_label =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
+    print(session["contact"].num_index_label)
+    print(session["contact"].get_num_index_labels())
     print(session["contact"].num_index_label)
     if request.method == "POST":
         return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_label)

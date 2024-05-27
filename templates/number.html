@@ -12,14 +12,14 @@
     <input 
     type="text" name ="num_label-{{i}}" 
     placeholder="{{i+1}}-label" 
-    {% if phone[i][0] != 0 %}
-    value = "{{phone[i][0]}}"    
+    {% if phone[i][1] != 0 %}
+    value = "{{phone[i][1]}}"    
     {% endif %} >  
 
     <select name = "num_index-{{i}}" class="select_columns">
         <option disabled selected>{{i+1}}-column</option>
         {% for column in columns %}
-            <option {% if phone[i][1] == loop.index0 %} selected {% endif %} value="{{loop.index0}}">{{ column }}</option>
+            <option {% if phone[i][0] == loop.index0 %} selected {% endif %} value="{{loop.index0}}">{{ column }}</option>
         {% endfor %}
     </select>  
     <br>
