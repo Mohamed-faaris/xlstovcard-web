@@ -24,6 +24,7 @@ class Contacts:
     email_index_labels = []
     groups_index = []
 
+    
     def __init__(self,file_path):
         try:
             xls = pd.ExcelFile(file_path)
@@ -34,6 +35,22 @@ class Contacts:
         sheets = xls.sheet_names
         self.contacts_file = xls.parse(sheets[0])
         self.columns = self.contacts_file.columns
+
+    def get_num_index_labels(self,n=2):
+        print("from contacts:",self.num_index_labels,self.num_index_labels!=[])
+        if self.num_index_labels!=[]:    
+            return self.num_index_labels 
+        else:
+            return [[-1,""] for _ in range(n)]
+        
+    def get_email_index_labels(self,n=2):
+        print("from contacts:",self.num_index_labels,self.num_index_labels!=[])
+        if self.num_index_labels!=[]:    
+            return self.num_index_labels 
+        else:
+            return [[-1,""] for _ in range(n)]
+        
+        
 
 
     def print_cols(self):
