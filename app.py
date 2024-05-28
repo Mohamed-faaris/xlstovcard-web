@@ -1,7 +1,6 @@
 from flask import Flask,render_template,request,session,redirect,send_file,url_for
 from contact.contact import *
 from flask_session import Session
-from werkzeug.utils import secure_filename
 import os
 
 app = Flask(__name__)
@@ -9,34 +8,59 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configure upload folder and allowed extensions
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
+def get_names(name:str):
+    value = request.form.get(name,"")
+    if value == "None":
+        return None
+    elif value == "":
+        return ""
+    elif value == "custom":
+        value = request.form.get(name+"_text","")
+        return value
+    return int(value)
 @app.route('/')
 def index():
-    session["contact"] = Contacts("")
     return render_template('upload.html',columns = session["contact"].columns)
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        return "No file part"
-    file = request.files['file']
-    if file.filename == '':
-        return "No selected file"
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('uploaded_file', filename=filename))
-    return "File type not allowed"
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == "POST":
+        if 'file' not in request.files:
+            return "No file part"
+        file = request.files['file']
+        if file.filename == '':
+            return "No selected file"
+        if file and allowed_file(file.filename):
+            os.makedirs('uploads', exist_ok=True)
+            file.save('uploads/file.xlsx')
+            session["contact"] = Contacts('uploads/file.xlsx')
+            session["filename"] = file.filename
+            return redirect("/number")            
+        else:
+            return "Invalid file type"
+    return render_template("upload.html")
+
+@app.route("/name",methods=['POST','get'])
+def name():
+    if request.method == "POST":
+        session["contact"].name_index = [get_names("prefix"),\
+                                         get_names("first_name"),\
+                                         get_names("middle_name"),\
+                                         get_names("last_name"),\
+                                         get_names("suffix")]
+        print(request.form.items(),[get_names("prefix"),\
+                                    get_names("first_name"),\
+                                    get_names("middle_name"),\
+                                    get_names("last_name"),\
+                                    get_names("suffix")],    
+                                    session["contact"].name_index)
+    return render_template("name.html",columns=session["contact"].columns,name_index = session["contact"].name_index)
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
@@ -55,6 +79,7 @@ def num_number():
     except:
         pass
     return redirect("/number")
+
 
 @app.route("/email",methods=['GET', 'POST'])
 def email():
