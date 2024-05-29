@@ -3,16 +3,16 @@
 {% block content %}
 <form action="/name" method = "post">
     
-    <label for="prefix" class="select_column_labels">prefix</label>
+    <label for="prefix" class="select_column_labels">prefix </label>
     <select name="prefix" id="prefix" class="select_columns">
-        <option disabled {% if name_index[0] == ""  %} selected {% endif %}>prefix</option>
+        <option disabled {% if name_index[0] == ""  %} selected {% endif %}>prefix {{name_index[0]}}</option>
         {% for column in columns %}
         <option {% if name_index[0] == loop.index0 %} selected {% endif %} value="{{loop.index0}}">{{column}}</option>
         {% endfor %}
-        <option {% if name_index[0] != "" and type(name_index[0]) is str %} selected {% endif %} value="custom" >custom</option>
-        <option {% if name_index[0] == None %} selected {% endif %} value="None">None</option>
+        <option {% if name_index[0][0] == -1 %} selected {% endif %} value="custom" >custom</option>
+        <option {% if name_index[0] == None %} selected {% endif %} value="None">None</option>0
     </select>
-        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" placeholder="custom text">
+        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" {% if name_index[0][0] == -1 %} value = "{{name_index[0][1]}}" {% endif %} name="prefix_text" placeholder="custom text">
     <br>
 
     <label for="first_name" class="select_column_labels">first_name</label>
@@ -24,7 +24,7 @@
         <option value="custom" >custom</option>
         <option value="None">None</option>
     </select>
-        <input type="text" id="first_name_text" class="custom_text" first_name="first_name_text" placeholder="custom text">
+        <input type="text" id="first_name_text" class="custom_text" name="first_name_text" placeholder="custom text">
     <br>
 
     <label for="middle_name" class="select_column_labels">middle_name</label>

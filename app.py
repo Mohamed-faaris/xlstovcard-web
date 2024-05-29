@@ -21,11 +21,12 @@ def get_names(name:str):
         return ""
     elif value == "custom":
         value = request.form.get(name+"_text","")
-        return value
+        print("heeeeedde",value,request.form,sep="||")
+        return [-1,value]
     return int(value)
 @app.route('/')
 def index():
-    return render_template('upload.html',columns = session["contact"].columns)
+    return render_template('upload.html',columns = session["contact"].columns,ran = len(session["contact"].columns))
 
 
 @app.route('/upload', methods=['GET', 'POST'])
