@@ -107,6 +107,9 @@ def addional():
 
 @app.route('/download')
 def download_file():
+    print("start")
+    session['contact'].build()
+    print("stop")
     file_path = 'Export.vcf'
     return send_file(file_path, as_attachment=True)
 

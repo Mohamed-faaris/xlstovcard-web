@@ -69,7 +69,7 @@ class Contacts:
                 return int_input(name_str)
             return int(i)
         elif i.isalnum():
-            return i
+            return [-1,i]
         else:
             return -1
 
@@ -109,8 +109,8 @@ class Contacts:
                 return str(self.contacts_file.iloc[row_index, index])
             else:
                 return ""
-        elif isinstance(index, str):
-            return index
+        elif isinstance(index, list):
+            return index[1]
         else:
             exit(f"{row_index}, {index}")
 
