@@ -21,7 +21,6 @@ def get_names(name:str):
         return ""
     elif value == "custom":
         value = request.form.get(name+"_text","")
-        print("heeeeedde",value,request.form,sep="||")
         return [-1,value]
     return int(value)
 @app.route('/')

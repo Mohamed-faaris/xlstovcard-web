@@ -1,69 +1,13 @@
+{% from "macros.html" import name_fields %}
 {% extends 'index.html' %}
 
 {% block content %}
 <form action="/name" method = "post">
-    
-    <label for="prefix" class="select_column_labels">prefix </label>
-    <select name="prefix" id="prefix" class="select_columns">
-        <option disabled {% if name_index[0] == ""  %} selected {% endif %}>prefix {{name_index[0]}}</option>
-        {% for column in columns %}
-        <option {% if name_index[0] == loop.index0 %} selected {% endif %} value="{{loop.index0}}">{{column}}</option>
-        {% endfor %}
-        <option {% if name_index[0][0] == -1 %} selected {% endif %} value="custom" >custom</option>
-        <option {% if name_index[0] == None %} selected {% endif %} value="None">None</option>0
-    </select>
-        <input type="text" id="prefix_text" class="custom_text" prefix="prefix_text" {% if name_index[0][0] == -1 %} value = "{{name_index[0][1]}}" {% endif %} name="prefix_text" placeholder="custom text">
-    <br>
-
-    <label for="first_name" class="select_column_labels">first_name</label>
-    <select first_name="columns"  id="first_name" class="select_columns">
-        <option disabled selected >first_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="None">None</option>
-    </select>
-        <input type="text" id="first_name_text" class="custom_text" name="first_name_text" placeholder="custom text">
-    <br>
-
-    <label for="middle_name" class="select_column_labels">middle_name</label>
-    <select middle_name="columns" id="middle_name" class="select_columns">
-        <option disabled selected >middle_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="None">None</option>
-    </select>
-        <input type="text" id="middle_name_text" class="custom_text" middle_name="middle_name_text" placeholder="custom text">
-    <br>
-
-    <label for="last_name" class="select_column_labels">last_name</label>
-    <select last_name="columns" id="last_name" class="select_columns">
-        <option disabled selected >last_name</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="None">None</option>
-    </select>
-        <input type="text" id="last_name_text" class="custom_text" last_name="last_name_text" placeholder="custom text">
-    <br>
-
-    
-
-    <label for="suffix" class="select_column_labels">suffix</label>
-    <select suffix="columns" id="suffix" class="select_columns">
-        <option disabled selected >suffix</option>
-        {% for column in columns %}
-        <option value="{{column}}">{{column}}</option>
-        {% endfor %}
-        <option value="custom" >custom</option>
-        <option value="None">None</option>
-    </select>
-        <input type="text" id="suffix_text" class="custom_text" suffix="suffix_text" placeholder="custom text">
-    <br>
+    {{ name_fields("prefix",0,name_index,columns) }}    
+    {{ name_fields("first_name",1,name_index,columns) }}    
+    {{ name_fields("middle_name",2,name_index,columns) }}    
+    {{ name_fields("last_name",3,name_index,columns) }}    
+    {{ name_fields("suffix",4,name_index,columns) }}    
     <input type="submit" value="submit" name = "name">
     
 </form>

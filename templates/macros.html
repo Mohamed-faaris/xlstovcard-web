@@ -1,7 +1,7 @@
-{% macro render_field(field_name,field_name_index) %}
+{% macro name_fields(field_name,field_name_index,name_index,columns) %}
     <label for="{{ field_name }}" class="select_column_labels">{{ field_name }}</label>
     <select name="{{ field_name }}" id="{{ field_name }}" class="select_columns">
-        <option disabled {% if name_index[field_name_index] == "" %} selected {% endif %}>{{ field_name }} {{ name_index[field_name_index] }}</option>
+        <option disabled {% if name_index[field_name_index] == "" %} selected {% endif %}>{{ field_name }}</option>
         {% for column in columns %}
             <option {% if name_index[field_name_index] == loop.index0 %} selected {% endif %} value="{{ loop.index0 }}">{{ column }}</option>
         {% endfor %}
