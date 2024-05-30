@@ -109,13 +109,11 @@ def groups():
     return render_template("group.html",columns=session["contact"].columns,groups_index = session["contact"].groups_index, no_of_groups=session.get("no_of_groups",2))
 
 @app.route("/no_of_groups",methods=['GET', 'POST'])
-def group_group():
-    try:
-        session["no_of_groups"] = int(request.form["no_of_groups"])
-        while len(session["contact"].groups_index)< session["no_of_group"] :
-            session["contact"].groups_index.append("")
-    except:
-        pass 
+def no_of_group():
+    session["no_of_groups"] = int(request.form.get("no_of_groups",2))
+    while len(session["contact"].groups_index)< session["no_of_groups"] :
+        print("hello")
+        session["contact"].groups_index.append("")
     return redirect("/group")
 
 @app.route("/addional",methods=['GET', 'POST'])
@@ -126,10 +124,17 @@ def addional():
 @app.route('/download')
 def download_file():
     print("start")
+    print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep="><")
     session['contact'].build()
     print("stop")
     file_path = 'Export.vcf'
     return send_file(file_path, as_attachment=True)
+
+
+@app.route('/test')
+def test():
+    return render_template()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

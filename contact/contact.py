@@ -52,8 +52,6 @@ class Contacts:
             return [[-1,""] for _ in range(n)]
         
         
-
-
     def print_cols(self):
         print(len(self.contacts_file), 'is number of rows')
         for i, x in enumerate(self.columns):
@@ -111,8 +109,10 @@ class Contacts:
                 return ""
         elif isinstance(index, list):
             return index[1]
+        elif index == "":
+            return ""
         else:
-            exit(f"{row_index}, {index}")
+            exit(f"{row_index},{type(index)},>>{index}<<")
 
     def build(self):
         vcf = ""
