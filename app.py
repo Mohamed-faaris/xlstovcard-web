@@ -38,14 +38,14 @@ def upload_file():
         file = request.files['file']
         if file.filename == '':
             session["contact"] = Contacts('uploads/file.xlsx')
-            return redirect("/number")  
+            return redirect("/name")  
             return "No selected file"
         if file and allowed_file(file.filename):
             os.makedirs('uploads', exist_ok=True)
             file.save('uploads/file.xlsx')
             session["contact"] = Contacts('uploads/file.xlsx')
             session["filename"] = file.filename
-            return redirect("/number")            
+            return redirect("/name")            
         else:
             return "Invalid file type"
     return render_template("upload.html")
@@ -78,26 +78,27 @@ def num_number():
         session["no_of_number"] = int(request.form["no_of_number"])
         while len(session["contact"].num_index_label)< session["no_of_number"] :
             session["contact"].num_index_label.append([-1,""])
-
     except:
-        pass
-    
+        pass 
     return redirect("/number")
 
 
 @app.route("/email",methods=['GET', 'POST'])
 def email():
     if request.method == "POST":
-        return render_template('email.html',columns = session["contact"].columns,no_of_email = session.get("no_of_email",2))
-    return render_template('email.html',columns = session["contact"].columns,no_of_email = session.get("no_of_email",2))
+        session["contact"].email_index_labels =[[int(request.form.get(f'email_index-{i}',-1)), request.form.get(f'email_label-{i}',"")] for i in range(session.get("no_of_email",2))]  
+    return render_template('email.html',columns = session["contact"].columns,no_of_email = session.get("no_of_email",2),email = session["contact"].email_index_labels)
 
 @app.route("/no_of_email",methods=['GET', 'POST'])
-def num_email():
+def email_email():
     try:
         session["no_of_email"] = int(request.form["no_of_email"])
+        while len(session["contact"].email_index_labels)< session["no_of_email"] :
+            session["contact"].email_index_labels.append([-1,""])
     except:
-        pass
+        pass 
     return redirect("/email")
+
 
 @app.route("/groups",methods=['GET', 'POST'])
 def groups():
