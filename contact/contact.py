@@ -111,6 +111,8 @@ class Contacts:
             return index[1]
         elif index == "":
             return ""
+        elif index == None:
+            return ""
         else:
             exit(f"{row_index},{type(index)},>>{index}<<")
 
@@ -118,7 +120,7 @@ class Contacts:
         vcf = ""
         for x in range(len(self.contacts_file)):
             vcf += "BEGIN:VCARD\nVERSION:3.0\n"
-
+            
             # name
             full_name = ""
             for i in self.name_index:
@@ -138,7 +140,6 @@ class Contacts:
                 temp += f"items{i}.TEL:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
             # debug
-            # print(temp)
             vcf += temp
 
             # categories
@@ -147,7 +148,8 @@ class Contacts:
             temp += "CATEGORIES:"
             for label in self.groups_index:
                 temp += self.index_retriever(x, label) + ","
-            temp += '\n'
+            temp = temp[:-1]
+            temp = '\n'
 
             vcf += temp
             # end
