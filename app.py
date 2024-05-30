@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+            
 
 ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
 
@@ -23,9 +24,10 @@ def get_names(name:str):
         value = request.form.get(name+"_text","")
         return [-1,value]
     return int(value)
+
 @app.route('/')
 def index():
-    return render_template('upload.html',columns = session["contact"].columns,ran = len(session["contact"].columns))
+    return render_template('upload.html')
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -35,6 +37,8 @@ def upload_file():
             return "No file part"
         file = request.files['file']
         if file.filename == '':
+            session["contact"] = Contacts('uploads/file.xlsx')
+            return redirect("/number")  
             return "No selected file"
         if file and allowed_file(file.filename):
             os.makedirs('uploads', exist_ok=True)
@@ -64,20 +68,20 @@ def name():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
-    session["contact"].num_index_label =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
-    print(session["contact"].num_index_label)
-    print(session["contact"].get_num_index_labels())
-    print(session["contact"].num_index_label)
     if request.method == "POST":
-        return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_label)
+        session["contact"].num_index_label =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
     return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_label)
 
 @app.route("/no_of_number",methods=['GET', 'POST'])
 def num_number():
     try:
         session["no_of_number"] = int(request.form["no_of_number"])
+        while len(session["contact"].num_index_label)< session["no_of_number"] :
+            session["contact"].num_index_label.append([-1,""])
+
     except:
         pass
+    
     return redirect("/number")
 
 
