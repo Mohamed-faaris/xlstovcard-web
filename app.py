@@ -68,16 +68,17 @@ def name():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
+    print(session["contact"].num_index_labels,"|  |",request.form)
     if request.method == "POST":
-        session["contact"].num_index_label =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
-    return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_label)
+        session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
+    return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
 
 @app.route("/no_of_number",methods=['GET', 'POST'])
 def num_number():
     try:
         session["no_of_number"] = int(request.form["no_of_number"])
-        while len(session["contact"].num_index_label)< session["no_of_number"] :
-            session["contact"].num_index_label.append([-1,""])
+        while len(session["contact"].num_index_labels)< session["no_of_number"] :
+            session["contact"].num_index_labels.append([-1,""])
     except:
         pass 
     return redirect("/number")

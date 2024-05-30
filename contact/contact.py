@@ -20,9 +20,9 @@ def int_e(string):
 class Contacts:
     # prefix,first_name,middle_name,last_name,suffix
     name_index = ["", "", "", "", ""]
-    num_index_labels = []
-    email_index_labels = []
-    groups_index = []
+    num_index_labels = [[-1,""],[-1,""]]
+    email_index_labels = [[-1,""],[-1,""]]
+    groups_index = [[-1,""],[-1,""]]
 
     
     def __init__(self,file_path):
