@@ -16,6 +16,7 @@ def allowed_file(filename):
 
 def get_names(name:str):
     value = request.form.get(name,"")
+    print(value)
     if value == "None":
         return None
     elif value == "":
@@ -68,16 +69,17 @@ def name():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
+    print(session["contact"].num_index_labels,"|  |",request.form)
     if request.method == "POST":
-        session["contact"].num_index_label =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
-    return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_label)
+        session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
+    return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
 
 @app.route("/no_of_number",methods=['GET', 'POST'])
 def num_number():
     try:
         session["no_of_number"] = int(request.form["no_of_number"])
-        while len(session["contact"].num_index_label)< session["no_of_number"] :
-            session["contact"].num_index_label.append([-1,""])
+        while len(session["contact"].num_index_labels)< session["no_of_number"] :
+            session["contact"].num_index_labels.append([-1,""])
     except:
         pass 
     return redirect("/number")
@@ -99,12 +101,21 @@ def email_email():
         pass 
     return redirect("/email")
 
-
-@app.route("/groups",methods=['GET', 'POST'])
+@app.route("/group",methods=['GET', 'POST'])
 def groups():
-    if request.method != "POST":
-        return render_template('groups.html',columns = session["contact"].columns)
-    
+    if request.method == "POST":
+        session["contact"].groups_index = [get_names(f"groups_name-{i}") for i in range(1,session.get("no_of_groups",2)+1)]
+    print(session["contact"].groups_index,request.form,"|||",session.get("no_of_groups",2))
+    return render_template("group.html",columns=session["contact"].columns,groups_index = session["contact"].groups_index, no_of_groups=session.get("no_of_groups",2))
+
+@app.route("/no_of_groups",methods=['GET', 'POST'])
+def no_of_group():
+    session["no_of_groups"] = int(request.form.get("no_of_groups",2))
+    while len(session["contact"].groups_index)< session["no_of_groups"] :
+        print("hello")
+        session["contact"].groups_index.append("")
+    return redirect("/group")
+
 @app.route("/addional",methods=['GET', 'POST'])
 def addional():
     if request.method != "POST":
@@ -113,10 +124,17 @@ def addional():
 @app.route('/download')
 def download_file():
     print("start")
+    print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep="><")
     session['contact'].build()
     print("stop")
     file_path = 'Export.vcf'
     return send_file(file_path, as_attachment=True)
+
+
+@app.route('/test')
+def test():
+    return render_template()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

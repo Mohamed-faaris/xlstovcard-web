@@ -1,0 +1,20 @@
+{% from "macros.html" import name_fields,groups_fields %}
+{% extends 'index.html' %}
+
+{% block content %}
+<form action="/no_of_groups" method="post">
+    <label for="no_of_groups" class="no_of_labels">number of groups</label>
+    <input type="number" name = "no_of_groups" min="0" id="no_of_groups" value="{{no_of_groups}}" >
+    <input type="submit">
+</form>
+
+<form action="/group" method = "post">
+    {% for i in range(no_of_groups) %}
+        {{ name_fields("groups_name-"+loop.index|string,loop.index0,groups_index,columns)}}
+    {% endfor %}
+    
+    <input type="submit" value="submit" name = "name">
+    
+</form>
+
+{% endblock %}

@@ -20,9 +20,9 @@ def int_e(string):
 class Contacts:
     # prefix,first_name,middle_name,last_name,suffix
     name_index = ["", "", "", "", ""]
-    num_index_labels = []
-    email_index_labels = []
-    groups_index = []
+    num_index_labels = [[-1,""],[-1,""]]
+    email_index_labels = [[-1,""],[-1,""]]
+    groups_index = ["",""]
 
     
     def __init__(self,file_path):
@@ -52,8 +52,6 @@ class Contacts:
             return [[-1,""] for _ in range(n)]
         
         
-
-
     def print_cols(self):
         print(len(self.contacts_file), 'is number of rows')
         for i, x in enumerate(self.columns):
@@ -111,14 +109,18 @@ class Contacts:
                 return ""
         elif isinstance(index, list):
             return index[1]
+        elif index == "":
+            return ""
+        elif index == None:
+            return ""
         else:
-            exit(f"{row_index}, {index}")
+            exit(f"{row_index},{type(index)},>>{index}<<")
 
     def build(self):
         vcf = ""
         for x in range(len(self.contacts_file)):
             vcf += "BEGIN:VCARD\nVERSION:3.0\n"
-
+            
             # name
             full_name = ""
             for i in self.name_index:
@@ -138,7 +140,6 @@ class Contacts:
                 temp += f"items{i}.TEL:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
             # debug
-            # print(temp)
             vcf += temp
 
             # categories
@@ -147,7 +148,8 @@ class Contacts:
             temp += "CATEGORIES:"
             for label in self.groups_index:
                 temp += self.index_retriever(x, label) + ","
-            temp += '\n'
+            temp = temp[:-1]
+            temp = '\n'
 
             vcf += temp
             # end
