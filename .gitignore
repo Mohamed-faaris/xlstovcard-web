@@ -4,5 +4,5 @@
 /__pycache__
 /Export.vcf
 /contact/__pycache__
-/flask_session
+/flask_session/
 /uploads/

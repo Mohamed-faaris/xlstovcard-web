@@ -11,3 +11,19 @@
     <input type="text" id="{{ field_name }}_text" class="custom_text"  {% if name_index[field_name_index][0] == -1 %} value="{{ name_index[field_name_index][1] }}" {% endif %} name="{{ field_name }}_text" placeholder="custom text">
     <br>
 {% endmacro %}
+
+{% macro groups_fields(field_name,field_name_index,name_index,columns) %}
+    <label for="{{ field_name }}" class="select_column_labels">{{ field_name }}</label>
+    <select name="{{ field_name }}" id="{{ field_name }}" class="select_columns">
+        {{name_index}}
+        <option disabled {% if name_index[field_name_index] == "" %} selected {% endif %}>{{ field_name }}</option>
+        {% for column in columns %}
+            <option {% if name_index[field_name_index] == loop.index0 %} selected {% endif %} value="{{ loop.index0 }}">{{ column }} || {{name_index}}|\/|{{ loop.index0}}</option>
+        {% endfor %}
+        <option {% if name_index[field_name_index][0] == -1 %} selected {% endif %} value="custom">custom</option>
+        <option {% if name_index[field_name_index] is none %} selected {% endif %} value="None">None</option>
+    </select>
+    <input type="text" id="{{ field_name }}_text" class="custom_text"  {% if name_index[field_name_index][0] == -1 %} value="{{ name_index[field_name_index][1] }}" {% endif %} name="{{ field_name }}_text" placeholder="custom text">
+    <br>
+{% endmacro %}
+

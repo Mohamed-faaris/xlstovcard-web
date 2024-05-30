@@ -16,6 +16,7 @@ def allowed_file(filename):
 
 def get_names(name:str):
     value = request.form.get(name,"")
+    print(value)
     if value == "None":
         return None
     elif value == "":
@@ -100,12 +101,23 @@ def email_email():
         pass 
     return redirect("/email")
 
-
-@app.route("/groups",methods=['GET', 'POST'])
+@app.route("/group",methods=['GET', 'POST'])
 def groups():
-    if request.method != "POST":
-        return render_template('groups.html',columns = session["contact"].columns)
-    
+    if request.method == "POST":
+        session["contact"].groups_index = [get_names(f"groups_name-{i}") for i in range(1,session.get("no_of_groups",2)+1)]
+    print(session["contact"].groups_index,request.form,"|||",session.get("no_of_groups",2))
+    return render_template("group.html",columns=session["contact"].columns,groups_index = session["contact"].groups_index, no_of_groups=session.get("no_of_groups",2))
+
+@app.route("/no_of_groups",methods=['GET', 'POST'])
+def group_group():
+    try:
+        session["no_of_groups"] = int(request.form["no_of_groups"])
+        while len(session["contact"].groups_index)< session["no_of_group"] :
+            session["contact"].groups_index.append("")
+    except:
+        pass 
+    return redirect("/group")
+
 @app.route("/addional",methods=['GET', 'POST'])
 def addional():
     if request.method != "POST":

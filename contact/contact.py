@@ -22,7 +22,7 @@ class Contacts:
     name_index = ["", "", "", "", ""]
     num_index_labels = [[-1,""],[-1,""]]
     email_index_labels = [[-1,""],[-1,""]]
-    groups_index = [[-1,""],[-1,""]]
+    groups_index = ["",""]
 
     
     def __init__(self,file_path):
