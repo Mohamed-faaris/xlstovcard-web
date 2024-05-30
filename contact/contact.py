@@ -28,6 +28,7 @@ class Contacts:
     def __init__(self,file_path):
         try:
             xls = pd.ExcelFile(file_path)
+            print("sucessfully loaded")
         except FileNotFoundError:
             print("FileNotFoundError \nloaded 50-sample-contacts.xlsx")
             file_path = "50-sample-contacts.xlsx"
@@ -44,9 +45,9 @@ class Contacts:
             return [[-1,""] for _ in range(n)]
         
     def get_email_index_labels(self,n=2):
-        print("from contacts:",self.num_index_labels,self.num_index_labels!=[])
-        if self.num_index_labels!=[]:    
-            return self.num_index_labels 
+        print("from contacts:",self.email_index_labels,self.email_index_labels!=[])
+        if self.email_index_labels!=[]:    
+            return self.email_index_labels 
         else:
             return [[-1,""] for _ in range(n)]
         
@@ -68,7 +69,7 @@ class Contacts:
                 return int_input(name_str)
             return int(i)
         elif i.isalnum():
-            return i
+            return [-1,i]
         else:
             return -1
 
@@ -108,8 +109,8 @@ class Contacts:
                 return str(self.contacts_file.iloc[row_index, index])
             else:
                 return ""
-        elif isinstance(index, str):
-            return index
+        elif isinstance(index, list):
+            return index[1]
         else:
             exit(f"{row_index}, {index}")
 
@@ -167,6 +168,8 @@ def main():
     contact.input_nums()
     contact.input_email()
     contact.input_groups()
+    contact.get_email_index_labels()
+    contact.get_num_index_labels()
     contact.build()
 
 

@@ -1,7 +1,8 @@
 /.idea
 /.venv
+/.vscode
 /__pycache__
 /Export.vcf
 /contact/__pycache__
-/.vscode
-
+/flask_session
+/uploads/
