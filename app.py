@@ -38,8 +38,8 @@ def upload_file():
             return "No file part"
         file = request.files['file']
         if file.filename == '':
-            session["contact"] = Contacts('uploads/file.xlsx')
-            return redirect("/name")  
+            # session["contact"] = Contacts('uploads/file.xlsx')
+            # return redirect("/name")  
             return "No selected file"
         if file and allowed_file(file.filename):
             os.makedirs('uploads', exist_ok=True)
@@ -124,7 +124,7 @@ def addional():
 @app.route('/download')
 def download_file():
     print("start")
-    print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep="><")
+    print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep=" || ")
     session['contact'].build()
     print("stop")
     file_path = 'Export.vcf'

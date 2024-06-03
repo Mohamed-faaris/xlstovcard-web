@@ -37,6 +37,8 @@ class Contacts:
         self.contacts_file = xls.parse(sheets[0])
         self.columns = self.contacts_file.columns
 
+    
+
     def get_num_index_labels(self,n=2):
         print("from contacts:",self.num_index_labels,self.num_index_labels!=[])
         if self.num_index_labels!=[]:    
@@ -127,7 +129,7 @@ class Contacts:
                 full_name += self.index_retriever(x, i)
                 full_name += " " if i != "" else ""
             # debug
-            print(full_name)
+            # print(full_name)
             vcf += "FN:" + full_name + '\n'
 
             # number+EMAIL
@@ -136,9 +138,11 @@ class Contacts:
             for index, label in self.num_index_labels:
                 temp += f"items{i}.TEL:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
+                i+=1
             for index, label in self.email_index_labels:
-                temp += f"items{i}.TEL:{self.index_retriever(x, index)}\n"
+                temp += f"items{i}.EMAIL;TYPE=INTERNET:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
+                i+=1
             # debug
             vcf += temp
 
@@ -149,7 +153,7 @@ class Contacts:
             for label in self.groups_index:
                 temp += self.index_retriever(x, label) + ","
             temp = temp[:-1]
-            temp = '\n'
+            temp += '\n'
 
             vcf += temp
             # end
