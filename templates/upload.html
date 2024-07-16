@@ -1,10 +1,10 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h1>Upload a File</h1>
+<h1 class="display-1">Upload a xls/xlsx File</h1>
     <form method="POST" action="/upload" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+        <input type="file" class="form-control" name="file">
+        <input type="submit" class="btn-primary rounded mt-2" value="Upload">
     </form>
 
 {% endblock %}
