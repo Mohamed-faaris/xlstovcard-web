@@ -1,6 +1,6 @@
 {% macro name_fields(field_name,field_name_index,name_index,columns) %}
-    <label for="{{ field_name }}" class="select_column_labels select_columns">{{ field_name.replace('_', ' ') }}</label>
-    <select name="{{ field_name }}" id="{{ field_name }}" class="select_columns">
+    <label for="{{ field_name }}" class="select_column_labels select_columns ">{{ field_name.replace('_', ' ') }}</label>
+    <select name="{{ field_name }}" id="{{ field_name }}" class="select_columns form-select" style=" max-width: 350px;">
         <option disabled value="None" {% if name_index[field_name_index] == "" %} selected {% endif %}>{{ field_name.replace('_', ' ') }}</option>
         {% for column in columns %}
             <option {% if name_index[field_name_index] == loop.index0 %} selected {% endif %} value="{{ loop.index0 }}">{{ column }}</option>

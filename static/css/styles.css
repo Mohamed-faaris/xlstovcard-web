@@ -1,6 +1,6 @@
 .select_column_labels{
-    max-width: 20%;
-    color: blue;
+    font-size: 0.9rem;
+    color: rgb(31, 31, 252);
 }
 .custom_text{
     visibility: hidden;
