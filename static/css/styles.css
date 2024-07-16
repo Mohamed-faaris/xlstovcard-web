@@ -1,7 +1,9 @@
-.select_column_labels{
+.select_column_labels
+{
     font-size: 0.9rem;
     color: rgb(31, 31, 252);
 }
-.custom_text{
+.custom_text
+{
     visibility: hidden;
 }

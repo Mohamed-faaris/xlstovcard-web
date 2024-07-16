@@ -8,11 +8,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
             
-
 ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 def get_names(name:str):
     value = request.form.get(name,"")
@@ -25,6 +26,7 @@ def get_names(name:str):
         value = request.form.get(name+"_text","")
         return [-1,value]
     return int(value)
+
 
 @app.route('/')
 def index():
@@ -51,6 +53,7 @@ def upload_file():
             return "Invalid file type"
     return render_template("upload.html")
 
+
 @app.route("/name",methods=['POST','get'])
 def name():
     if request.method == "POST":
@@ -67,12 +70,14 @@ def name():
                                     session["contact"].name_index)
     return render_template("name.html",columns=session["contact"].columns,name_index = session["contact"].name_index)
 
+
 @app.route("/number",methods=['GET', 'POST'])
 def number():
     print(session["contact"].num_index_labels,"|  |",request.form)
     if request.method == "POST":
         session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
     return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
+
 
 @app.route("/no_of_number",methods=['GET', 'POST'])
 def num_number():
@@ -91,6 +96,7 @@ def email():
         session["contact"].email_index_labels =[[int(request.form.get(f'email_index-{i}',-1)), request.form.get(f'email_label-{i}',"")] for i in range(session.get("no_of_email",2))]  
     return render_template('email.html',columns = session["contact"].columns,no_of_email = session.get("no_of_email",2),email = session["contact"].email_index_labels)
 
+
 @app.route("/no_of_email",methods=['GET', 'POST'])
 def email_email():
     try:
@@ -101,12 +107,14 @@ def email_email():
         pass 
     return redirect("/email")
 
+
 @app.route("/group",methods=['GET', 'POST'])
 def groups():
     if request.method == "POST":
         session["contact"].groups_index = [get_names(f"groups_name-{i}") for i in range(1,session.get("no_of_groups",2)+1)]
     print(session["contact"].groups_index,request.form,"|||",session.get("no_of_groups",2))
     return render_template("group.html",columns=session["contact"].columns,groups_index = session["contact"].groups_index, no_of_groups=session.get("no_of_groups",2))
+
 
 @app.route("/no_of_groups",methods=['GET', 'POST'])
 def no_of_group():
@@ -116,10 +124,12 @@ def no_of_group():
         session["contact"].groups_index.append("")
     return redirect("/group")
 
+
 @app.route("/addional",methods=['GET', 'POST'])
 def addional():
     if request.method != "POST":
         return render_template('addional.html',columns = session["contact"].columns)
+
 
 @app.route('/download')
 def download_file():
@@ -134,6 +144,7 @@ def download_file():
 @app.route('/test')
 def test():
     return render_template()
+
 
 
 if __name__ == '__main__':
