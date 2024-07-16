@@ -2,7 +2,7 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<form action="/name" method = "post">
+<form action="/name" class="container" method = "post">
     {{ name_fields("prefix",0,name_index,columns) }}    
     {{ name_fields("first_name",1,name_index,columns) }}    
     {{ name_fields("middle_name",2,name_index,columns) }}    
