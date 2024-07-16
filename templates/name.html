@@ -2,13 +2,13 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<form action="/name" method = "post">
+<form action="/name" class="container" method = "post">
     {{ name_fields("prefix",0,name_index,columns) }}    
     {{ name_fields("first_name",1,name_index,columns) }}    
     {{ name_fields("middle_name",2,name_index,columns) }}    
     {{ name_fields("last_name",3,name_index,columns) }}    
     {{ name_fields("suffix",4,name_index,columns) }}    
-    <input type="submit" value="submit" name = "name">
+    <input class="btn-primary rounded" type="submit" value="submit">
     
 </form>
 

@@ -8,21 +8,25 @@
 </form>
 
 {% for i in range(no_of_email) %}
-<form action="/email" method="post">
-    <input 
+<form class="container" action="/email" method="post">
+    <div class="row mt-2 ">
+    <div class="form-floating col-6 " ><input 
     type="text" name ="email_label-{{i}}" 
+    class="form-control"
+    id="{{i+1}}-label" 
     placeholder="{{i+1}}-label" 
     {% if email[i][1] != 0 %}
     value = "{{email[i][1]}}"    
-    {% endif %} >  
+    {% endif %} > <label for="{{i+1}}-label">label for {{i+1}}</label> </div>
 
-    <select name = "email_index-{{i}}" class="select_columns">
+    <div class="col-6 h-100" >
+    <select name = "email_index-{{i}}" class="select_columns form-select">
         <option disabled selected>{{i+1}}-column</option>
         {% for column in columns %}
             <option {% if email[i][0] == loop.index0 %} selected {% endif %} value="{{loop.index0}}">{{ column }}</option>
         {% endfor %}
-    </select>  
+    </select>  </div></div>
     <br>
 {% endfor %}
-<input type="submit">
+<input class="btn-primary rounded mt-1" type="submit">
 {% endblock %}
