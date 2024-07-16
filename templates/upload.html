@@ -1,9 +1,9 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h1 class="display-1">Upload a xls/xlsx File</h1>
+<h1 class="display-3">Upload a xls/xlsx File</h1>
     <form method="POST" action="/upload" enctype="multipart/form-data">
-        <input type="file" class="form-control" name="file">
+        <input type="file" class="form-control"  style=" max-width: 500px;" name="file">
         <input type="submit" class="btn-primary rounded mt-2" value="Upload">
     </form>
 
