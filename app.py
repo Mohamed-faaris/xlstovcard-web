@@ -40,8 +40,6 @@ def upload_file():
             return "No file part"
         file = request.files['file']
         if file.filename == '':
-            # session["contact"] = Contacts('uploads/file.xlsx')
-            # return redirect("/name")  
             return "No selected file"
         if file and allowed_file(file.filename):
             os.makedirs('uploads', exist_ok=True)
@@ -73,7 +71,6 @@ def name():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
-    print(session["contact"].num_index_labels,"|  |",request.form)
     if request.method == "POST":
         session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
     return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
