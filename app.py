@@ -42,9 +42,11 @@ def upload_file():
         if file.filename == '':
             return "No selected file"
         if file and allowed_file(file.filename):
-            os.makedirs('uploads', exist_ok=True)
-            file.save(f'uploads/{file.filename}.xlsx')
-            session["contact"] = Contacts(f'uploads/{file.filename}.xlsx')
+            upload_folder = '/tmp/uploads'
+            os.makedirs(upload_folder, exist_ok=True)
+            file_path = os.path.join(upload_folder, f'{file.filename}.xlsx')
+            file.save(file_path)
+            session["contact"] = Contacts(file_path)
             session["filename"] = file.filename
             return redirect("/name")            
         else:
