@@ -135,9 +135,11 @@ def addional():
 def download_file():
     print("start")
     print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep=" || ")
-    session['contact'].build()
+    upload_folder = '/tmp/uploads'
+    os.makedirs(upload_folder, exist_ok=True)
+    file_path = os.path.join(upload_folder, 'Export.vcf.xlsx')        
+    session['contact'].build(file_path)
     print("stop")
-    file_path = 'Export.vcf'
     return send_file(file_path, as_attachment=True)
 
 

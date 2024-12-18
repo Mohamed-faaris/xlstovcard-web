@@ -114,7 +114,7 @@ class Contacts:
         else:
             exit(f"{row_index},{type(index)},>>{index}<<")
 
-    def build(self):
+    def build(self,file_path):
         vcf = ""
         for x in range(len(self.contacts_file)):
             vcf += "BEGIN:VCARD\nVERSION:3.0\n"
@@ -156,7 +156,7 @@ class Contacts:
             vcf += "END:VCARD\n\n"
 
         # saving file
-        text_file = open("Export.vcf", "w", encoding="utf-8")  # Encoding utf-8 added
+        text_file = open(file_path, "w", encoding="utf-8")  # Encoding utf-8 added
         text_file.write(vcf)
         text_file.close()
         print("Completed!")
