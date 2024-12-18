@@ -43,8 +43,8 @@ def upload_file():
             return "No selected file"
         if file and allowed_file(file.filename):
             os.makedirs('uploads', exist_ok=True)
-            file.save('uploads/file.xlsx')
-            session["contact"] = Contacts('uploads/file.xlsx')
+            file.save(f'uploads/{file.filename}.xlsx')
+            session["contact"] = Contacts(f'uploads/{file.filename}.xlsx')
             session["filename"] = file.filename
             return redirect("/name")            
         else:
@@ -72,7 +72,7 @@ def name():
 @app.route("/number",methods=['GET', 'POST'])
 def number():
     if request.method == "POST":
-        session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]  
+        session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]
     return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
 
 
@@ -83,14 +83,15 @@ def num_number():
         while len(session["contact"].num_index_labels)< session["no_of_number"] :
             session["contact"].num_index_labels.append([-1,""])
     except:
-        pass 
+        pass
     return redirect("/number")
 
 
 @app.route("/email",methods=['GET', 'POST'])
 def email():
+    print("email",session["contact"].email_index_labels)
     if request.method == "POST":
-        session["contact"].email_index_labels =[[int(request.form.get(f'email_index-{i}',-1)), request.form.get(f'email_label-{i}',"")] for i in range(session.get("no_of_email",2))]  
+        session["contact"].email_index_labels =[[int(request.form.get(f'email_index-{i}',-1)), request.form.get(f'email_label-{i}',"")] for i in range(session.get("no_of_email",2))]
     return render_template('email.html',columns = session["contact"].columns,no_of_email = session.get("no_of_email",2),email = session["contact"].email_index_labels)
 
 

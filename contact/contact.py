@@ -20,12 +20,11 @@ def int_e(string):
 class Contacts:
     # prefix,first_name,middle_name,last_name,suffix
     name_index = ["", "", "", "", ""]
-    num_index_labels = [[-1,""],[-1,""]]
-    email_index_labels = [[-1,""],[-1,""]]
-    groups_index = ["",""]
+    num_index_labels = [[-1, ""], [-1, ""]]
+    email_index_labels = [[-1, ""], [-1, ""]]
+    groups_index = ["", ""]
 
-    
-    def __init__(self,file_path):
+    def __init__(self, file_path):
         try:
             xls = pd.ExcelFile(file_path)
             print("sucessfully loaded")
@@ -37,23 +36,20 @@ class Contacts:
         self.contacts_file = xls.parse(sheets[0])
         self.columns = self.contacts_file.columns
 
-    
+    def get_num_index_labels(self, n=2):
+        print("from contacts:", self.num_index_labels, self.num_index_labels != [])
+        if self.num_index_labels != []:
+            return self.num_index_labels
+        else:
+            return [[-1, ""] for _ in range(n)]
 
-    def get_num_index_labels(self,n=2):
-        print("from contacts:",self.num_index_labels,self.num_index_labels!=[])
-        if self.num_index_labels!=[]:    
-            return self.num_index_labels 
+    def get_email_index_labels(self, n=2):
+        print("from contacts:", self.email_index_labels, self.email_index_labels != [])
+        if self.email_index_labels != []:
+            return self.email_index_labels
         else:
-            return [[-1,""] for _ in range(n)]
-        
-    def get_email_index_labels(self,n=2):
-        print("from contacts:",self.email_index_labels,self.email_index_labels!=[])
-        if self.email_index_labels!=[]:    
-            return self.email_index_labels 
-        else:
-            return [[-1,""] for _ in range(n)]
-        
-        
+            return [[-1, ""] for _ in range(n)]
+
     def print_cols(self):
         print(len(self.contacts_file), 'is number of rows')
         for i, x in enumerate(self.columns):
@@ -69,7 +65,7 @@ class Contacts:
                 return int_input(name_str)
             return int(i)
         elif i.isalnum():
-            return [-1,i]
+            return [-1, i]
         else:
             return -1
 
@@ -122,7 +118,7 @@ class Contacts:
         vcf = ""
         for x in range(len(self.contacts_file)):
             vcf += "BEGIN:VCARD\nVERSION:3.0\n"
-            
+
             # name
             full_name = ""
             for i in self.name_index:
@@ -138,11 +134,11 @@ class Contacts:
             for index, label in self.num_index_labels:
                 temp += f"items{i}.TEL:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
-                i+=1
+                i += 1
             for index, label in self.email_index_labels:
                 temp += f"items{i}.EMAIL;TYPE=INTERNET:{self.index_retriever(x, index)}\n"
                 temp += f"items{i}.X-ABLabel:{label}\n"
-                i+=1
+                i += 1
             # debug
             vcf += temp
 
