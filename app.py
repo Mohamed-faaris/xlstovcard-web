@@ -14,6 +14,10 @@ ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def check_file_upload():
+    if not isinstance(session.get("contact", None),Contacts):
+        return False
+    return True
 
 def get_names(name:str):
     value = request.form.get(name,"")
@@ -56,6 +60,8 @@ def upload_file():
 
 @app.route("/name",methods=['POST','get'])
 def name():
+    if not check_file_upload():
+            return redirect("/upload")
     if request.method == "POST":
         session["contact"].name_index = [get_names("prefix"),\
                                          get_names("first_name"),\
@@ -73,6 +79,8 @@ def name():
 
 @app.route("/number",methods=['GET', 'POST'])
 def number():
+    if not check_file_upload():
+            return redirect("/upload")
     if request.method == "POST":
         session["contact"].num_index_labels =[[int(request.form.get(f'num_index-{i}',-1)), request.form.get(f'num_label-{i}',"")] for i in range(session.get("no_of_number",2))]
     return render_template('number.html',columns = session["contact"].columns,no_of_number = session.get("no_of_number",2),phone = session["contact"].num_index_labels)
@@ -91,6 +99,8 @@ def num_number():
 
 @app.route("/email",methods=['GET', 'POST'])
 def email():
+    if not check_file_upload():
+            return redirect("/upload")
     print("email",session["contact"].email_index_labels)
     if request.method == "POST":
         session["contact"].email_index_labels =[[int(request.form.get(f'email_index-{i}',-1)), request.form.get(f'email_label-{i}',"")] for i in range(session.get("no_of_email",2))]
@@ -110,6 +120,8 @@ def email_email():
 
 @app.route("/group",methods=['GET', 'POST'])
 def groups():
+    if not check_file_upload():
+            return redirect("/upload")
     if request.method == "POST":
         session["contact"].groups_index = [get_names(f"groups_name-{i}") for i in range(1,session.get("no_of_groups",2)+1)]
     print(session["contact"].groups_index,request.form,"|||",session.get("no_of_groups",2))
@@ -125,14 +137,18 @@ def no_of_group():
     return redirect("/group")
 
 
-@app.route("/addional",methods=['GET', 'POST'])
-def addional():
+@app.route("/additional",methods=['GET', 'POST'])
+def additional():
+    if not check_file_upload():
+            return redirect("/upload")
     if request.method != "POST":
         return render_template('addional.html',columns = session["contact"].columns)
 
 
 @app.route('/download')
 def download_file():
+    if not check_file_upload():
+            return redirect("/upload")
     print("start")
     print(session['contact'].email_index_labels,session['contact'].groups_index,session['contact'].num_index_labels,session['contact'].name_index,sep=" || ")
     upload_folder = '/tmp/uploads'
