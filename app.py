@@ -48,7 +48,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             upload_folder = '/tmp/uploads'
             os.makedirs(upload_folder, exist_ok=True)
-            file_path = os.path.join(upload_folder, f'{file.filename}.xlsx')
+            file_path = os.path.join(upload_folder, f'upload.xlsx')
             file.save(file_path)
             session["contact"] = Contacts(file_path)
             session["filename"] = file.filename
@@ -166,5 +166,5 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run()
     
