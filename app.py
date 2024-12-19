@@ -15,7 +15,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def check_file_upload():
-    if not isinstance(session.get("contact", None),Contacts):
+    if not isinstance(session.get("filename", None), str):
         return False
     return True
 
