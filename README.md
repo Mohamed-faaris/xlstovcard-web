@@ -3,7 +3,7 @@
 You can also access the deployed version of this application at [https://xlstovcard-web.onrender.com/](https://xlstovcard-web.onrender.com/).
 
 ## Description
-This project provides a web interface to convert Excel files (.xls or .xlsx) containing contact information into vCard (.vcf) files. It allows users to upload an Excel file, specify the columns for names, phone numbers, emails, and groups, and then download the generated vCard file.
+This project provides a web interface to convert Excel files (.xls or .xlsx) containing contact information into vCard (.vcf) files. It allows users to upload an Excel file, specify the columns for names, phone numbers, emails, and groups, and then download the generated vCard file, which can be easily imported into contacts apps.
 
 ## Installation
 1. Clone the repository:
@@ -32,7 +32,6 @@ This project provides a web interface to convert Excel files (.xls or .xlsx) con
 2. Open your web browser and go to `http://localhost:8050`.
 
 3. Follow the instructions on the web interface to upload your Excel file, specify the columns, and download the vCard file.
-
 
 ## Functionalities
 - **Upload Excel File**: Users can upload an Excel file containing contact information.
